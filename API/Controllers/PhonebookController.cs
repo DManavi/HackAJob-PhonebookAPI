@@ -7,6 +7,8 @@ using System.Web.Http;
 
 namespace API.Controllers
 {
+    [Filters.Jwt]
+    [Filters.LoggedIn]
     public class PhonebookController : ApiController
     {
 

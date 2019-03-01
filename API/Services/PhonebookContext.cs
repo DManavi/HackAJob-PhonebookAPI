@@ -24,17 +24,14 @@ namespace API.Services
             }
         }
 
+        public PhonebookContext() : base(nameOrConnectionString: "PhonebookDB") { }
+
         public PhonebookContext(bool autoMigrate = false) : base(nameOrConnectionString: "PhonebookDB")
         {
             if (autoMigrate)
             {
-                Database.SetInitializer(new MigrateDatabaseToLatestVersion<PhonebookContext, MigrateDBConfiguration>());
+                Database.SetInitializer(new MigrateDatabaseToLatestVersion<PhonebookContext, Migrations.AutoMigrateConfiguration>());
             }
         }
-    }
-
-    public class MigrateDBConfiguration : DbMigrationsConfiguration<PhonebookContext>
-    {
-
     }
 }

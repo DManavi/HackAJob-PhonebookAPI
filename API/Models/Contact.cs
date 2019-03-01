@@ -13,6 +13,6 @@ namespace API.Models
         public virtual ICollection<Field> Fields { get; set; }
 
         [Required]
-        public virtual ICollection<User> Owner { get; set; }
+        public virtual User Owner { get; set; }
     }
 }

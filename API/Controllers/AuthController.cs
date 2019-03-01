@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+﻿using System.Linq;
 using System.Web.Http;
 
 namespace API.Controllers
@@ -10,9 +6,18 @@ namespace API.Controllers
     public class AuthController : ApiController
     {
         [HttpPost]
-        public IHttpActionResult Login([FromBody] string username, [FromBody] string password)
+        public IHttpActionResult Login([FromBody] DTO.Login model)
         {
-            return Ok();
+            bool isValid = Services.PhonebookContext.Instance.Users.Any(_ => _.Username.ToLower() == model.Username.ToLower() && _.Password == model.Password && !_.Disabled);
+
+            if (!isValid)
+            {
+                return StatusCode(System.Net.HttpStatusCode.Forbidden);
+            }
+
+            var token = Services.Jwt.Create(model.Username.ToLower());
+
+            return Ok(token);
         }
     }
 }

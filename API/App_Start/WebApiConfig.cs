@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Http;
 
 namespace API
@@ -22,6 +20,9 @@ namespace API
 
             // enable camelCase property name resolver
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
+
+            // Dummy call to trigger database migration and instance creation
+            Services.PhonebookContext.Instance.Users.Any();
         }
     }
 }

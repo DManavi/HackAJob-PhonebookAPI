@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -23,5 +24,14 @@ namespace API.Models
 
         [Required]
         public virtual Contact Contact { get; set; }
+    }
+
+    public static class FieldCategories
+    {
+        public static string PersonalInfo { get { return "personal"; } }
+
+        public static string Phone { get { return "phone"; } }
+
+        public static string Email { get { return "email"; } }
     }
 }
