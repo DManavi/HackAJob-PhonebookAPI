@@ -6,7 +6,7 @@ namespace API.Controllers
     public class AuthController : ApiController
     {
         [HttpPost]
-        public IHttpActionResult Login([FromBody] DTO.Login model)
+        public IHttpActionResult Login([FromBody] DTO.Auth.Login model)
         {
             bool isValid = Services.PhonebookContext.Instance.Users.Any(_ => _.Username.ToLower() == model.Username.ToLower() && _.Password == model.Password && !_.Disabled);
 

@@ -109,7 +109,10 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\PhonebookController.cs" />
-    <Compile Include="DTO\Login.cs" />
+    <Compile Include="DTO\Contact\Create.cs" />
+    <Compile Include="DTO\Contact\Read.cs" />
+    <Compile Include="DTO\Contact\Update.cs" />
+    <Compile Include="DTO\Auth\Login.cs" />
     <Compile Include="Filters\Jwt.cs" />
     <Compile Include="Filters\LoggedIn.cs" />
     <Compile Include="Global.asax.cs">
