@@ -18,7 +18,10 @@ namespace API.Services
         {
             get
             {
-                _Instance = new PhonebookContext(true);
+                if (_Instance == null)
+                {
+                    _Instance = new PhonebookContext(true);
+                }
 
                 return _Instance;
             }

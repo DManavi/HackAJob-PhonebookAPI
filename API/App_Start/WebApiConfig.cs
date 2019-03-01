@@ -25,11 +25,20 @@ namespace API
             // Dummy call to trigger database migration and instance creation
             Services.PhonebookContext.Instance.Users.Any();
 
+            /** Mappers **/
+            
             // register mappers
             Mapper.Register<Models.Field, DTO.Field.Read>();
 
+            Mapper.Register<DTO.Field.Create, Models.Field>()
+                .Ignore(_ => _.Contact);
+
+
             Mapper.Register<Models.Contact, DTO.Contact.Read>()
                 .Member(_ => _.Id, _ => _.Id.ToString("N"));
+
+            Mapper.Register<DTO.Contact.Create, Models.Contact>()
+                .Ignore(_ => _.Owner);
         }
     }
 }
