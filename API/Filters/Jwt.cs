@@ -11,7 +11,24 @@ namespace API.Filters
     {
         public override void OnAuthorization(HttpActionContext actionContext)
         {
-            actionContext.Request.Properties.Add("username", "user1");
+            IEnumerable<string> headerValue = null;
+
+            if (actionContext.Request.Headers.TryGetValues("Authorization", out headerValue) && headerValue.Count() > 0)
+            {
+                var parts = headerValue.ElementAt(0).Split(' ');
+
+                if (parts.Length == 2 && parts[0].ToLower() == "bearer")
+                {
+                    var username = string.Empty;
+
+                    var payload = Services.Jwt.Check(parts[1], out username);
+
+                    if (username.Length > 0)
+                    {
+                        actionContext.Request.Properties.Add("username", username);
+                    }
+                }
+            }
 
             base.OnAuthorization(actionContext);
         }
