@@ -110,6 +110,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903011453270_InitialCreate.cs" />
+    <Compile Include="Migrations\201903011453270_InitialCreate.Designer.cs">
+      <DependentUpon>201903011453270_InitialCreate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\Field.cs" />
@@ -128,6 +132,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201903011453270_InitialCreate.resx">
+      <DependentUpon>201903011453270_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

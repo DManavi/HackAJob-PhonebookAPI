@@ -21,7 +21,6 @@ namespace API.Models
         [Required]
         public string Value { get; set; }
 
-
         [Required]
         public virtual Contact Contact { get; set; }
     }

@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using System.Data.Entity.Migrations;
 
 namespace API.Services
 {
@@ -10,8 +11,30 @@ namespace API.Services
 
         public DbSet<Models.Field> Fields { get; set; }
 
-        public PhonebookContext() : base(nameOrConnectionString: "PhonebookDB")
+
+        private static PhonebookContext _Instance;
+
+        public static PhonebookContext Instance
         {
+            get
+            {
+                _Instance = new PhonebookContext(true);
+
+                return _Instance;
+            }
         }
+
+        public PhonebookContext(bool autoMigrate = false) : base(nameOrConnectionString: "PhonebookDB")
+        {
+            if (autoMigrate)
+            {
+                Database.SetInitializer(new MigrateDatabaseToLatestVersion<PhonebookContext, MigrateDBConfiguration>());
+            }
+        }
+    }
+
+    public class MigrateDBConfiguration : DbMigrationsConfiguration<PhonebookContext>
+    {
+
     }
 }
