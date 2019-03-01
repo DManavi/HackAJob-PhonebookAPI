@@ -49,6 +49,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="ExpressMapper, Version=1.9.1.0, Culture=neutral, PublicKeyToken=ac363faa09311ba0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Expressmapper.1.9.1\lib\net46\ExpressMapper.dll</HintPath>
+    </Reference>
     <Reference Include="jose-jwt, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\jose-jwt.2.4.0\lib\net40\jose-jwt.dll</HintPath>
     </Reference>
@@ -109,10 +112,15 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\PhonebookController.cs" />
+    <Compile Include="DTO\Contact\Base.cs" />
     <Compile Include="DTO\Contact\Create.cs" />
     <Compile Include="DTO\Contact\Read.cs" />
     <Compile Include="DTO\Contact\Update.cs" />
     <Compile Include="DTO\Auth\Login.cs" />
+    <Compile Include="DTO\Field\Base.cs" />
+    <Compile Include="DTO\Field\Create.cs" />
+    <Compile Include="DTO\Field\Read.cs" />
+    <Compile Include="DTO\Field\Update.cs" />
     <Compile Include="Filters\Jwt.cs" />
     <Compile Include="Filters\LoggedIn.cs" />
     <Compile Include="Global.asax.cs">

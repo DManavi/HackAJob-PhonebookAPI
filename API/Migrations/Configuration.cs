@@ -121,7 +121,7 @@ namespace API.Migrations
                }
             };
 
-            context.Users.AddOrUpdate(_ => _.Username, users[0]);
+            context.Users.AddOrUpdate(_ => _.Username, users);
 
             context.SaveChanges();
 

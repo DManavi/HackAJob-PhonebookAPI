@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using ExpressMapper;
+using System.Linq;
 using System.Web.Http;
 
 namespace API
@@ -23,6 +24,12 @@ namespace API
 
             // Dummy call to trigger database migration and instance creation
             Services.PhonebookContext.Instance.Users.Any();
+
+            // register mappers
+            Mapper.Register<Models.Field, DTO.Field.Read>();
+
+            Mapper.Register<Models.Contact, DTO.Contact.Read>()
+                .Member(_ => _.Id, _ => _.Id.ToString("N"));
         }
     }
 }
