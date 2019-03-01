@@ -21,10 +21,25 @@ namespace API.Controllers
             }
         }
 
+        private Services.PhonebookContext _DatabaseContext;
+
+        private Services.PhonebookContext DatabaseContext
+        {
+            get
+            {
+                if(_DatabaseContext == null)
+                {
+                    _DatabaseContext = Services.PhonebookContext.Instance;
+                }
+
+                return _DatabaseContext;
+            }
+        }
+
         [Route("")]
         public IHttpActionResult Get()
         {
-            var query = Services.PhonebookContext.Instance.Contacts.AsQueryable()
+            var query = DatabaseContext.Contacts.AsQueryable()
                 .Where(_ => _.Owner.Username.ToLower() == Username.ToLower())
                 .Include(_ => _.Fields); // create query
 
@@ -36,7 +51,7 @@ namespace API.Controllers
         [Route("{id}")]
         public IHttpActionResult Get([FromUri] Guid id)
         {
-            var contactModel = Services.PhonebookContext.Instance.Contacts.AsQueryable()
+            var contactModel = DatabaseContext.Contacts.AsQueryable()
                 .Where(_ => _.Owner.Username.ToLower() == Username.ToLower() && _.Id == id)
                 .FirstOrDefault();
 
@@ -56,13 +71,13 @@ namespace API.Controllers
             var domain = Mapper.Map<DTO.Contact.Create, Models.Contact>(model);
 
 
-            domain.Owner = Services.PhonebookContext.Instance.Users.FirstOrDefault(_ => _.Username.ToLower() == Username.ToLower());
+            domain.Owner = DatabaseContext.Users.FirstOrDefault(_ => _.Username.ToLower() == Username.ToLower());
 
-            Services.PhonebookContext.Instance.Users.Attach(domain.Owner);
+            DatabaseContext.Users.Attach(domain.Owner);
 
-            Services.PhonebookContext.Instance.Contacts.Add(domain);
+            DatabaseContext.Contacts.Add(domain);
 
-            var result = Services.PhonebookContext.Instance.SaveChanges();
+            var result = DatabaseContext.SaveChanges();
 
             if (result > 0)
             {
@@ -78,9 +93,46 @@ namespace API.Controllers
         }
 
         [Route("{id}")]
+        public IHttpActionResult Put([FromUri] Guid id, [FromBody] DTO.Contact.Update model)
+        {
+            var contactQuery = DatabaseContext.Contacts.AsQueryable().Where(_ => _.Id == id && _.Owner.Username.ToLower() == Username.ToLower());
+
+            if (!contactQuery.Any())
+            {
+                return NotFound();
+            }
+
+            using (var transaction = DatabaseContext.Database.BeginTransaction())
+            {
+                // mark current fields as deleted
+                var currentFields = DatabaseContext.Fields.Where(_ => _.Contact.Id == id);
+
+                DatabaseContext.Fields.RemoveRange(currentFields);
+
+                DatabaseContext.SaveChanges();
+
+                // add new fields
+
+                var domain = DatabaseContext.Contacts.SingleOrDefault(_ => _.Id == id);
+
+                domain.Fields = Mapper.Map<IEnumerable<DTO.Field.Read>, List<Models.Field>>(model.Fields);
+
+                DatabaseContext.SaveChanges();
+
+
+                var dto = Mapper.Map<Models.Contact, DTO.Contact.Read>(domain);
+
+
+                transaction.Commit();
+
+                return Ok(dto);
+            }
+        }
+
+        [Route("{id}")]
         public IHttpActionResult Delete([FromUri] Guid id)
         {
-            var contactQuery = Services.PhonebookContext.Instance.Contacts.AsQueryable().Where(_ => _.Id == id && _.Owner.Username.ToLower() == Username.ToLower());
+            var contactQuery = DatabaseContext.Contacts.AsQueryable().Where(_ => _.Id == id && _.Owner.Username.ToLower() == Username.ToLower());
 
             if (!contactQuery.Any())
             {
@@ -90,12 +142,12 @@ namespace API.Controllers
             var contact = contactQuery.Include(_ => _.Fields).SingleOrDefault();
 
 
-            Services.PhonebookContext.Instance.Fields.RemoveRange(contact.Fields);
+            DatabaseContext.Fields.RemoveRange(contact.Fields);
 
-            Services.PhonebookContext.Instance.Contacts.Remove(contact);
+            DatabaseContext.Contacts.Remove(contact);
 
 
-            var result = Services.PhonebookContext.Instance.SaveChanges();
+            var result = DatabaseContext.SaveChanges();
 
             if (result > 0)
             {

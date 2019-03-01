@@ -30,9 +30,6 @@ namespace API
             // register mappers
             Mapper.Register<Models.Field, DTO.Field.Read>();
 
-            Mapper.Register<DTO.Field.Create, Models.Field>()
-                .Ignore(_ => _.Contact);
-
 
             Mapper.Register<Models.Contact, DTO.Contact.Read>()
                 .Member(_ => _.Id, _ => _.Id.ToString("N"));

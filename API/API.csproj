@@ -118,9 +118,7 @@
     <Compile Include="DTO\Contact\Update.cs" />
     <Compile Include="DTO\Auth\Login.cs" />
     <Compile Include="DTO\Field\Base.cs" />
-    <Compile Include="DTO\Field\Create.cs" />
     <Compile Include="DTO\Field\Read.cs" />
-    <Compile Include="DTO\Field\Update.cs" />
     <Compile Include="Filters\Jwt.cs" />
     <Compile Include="Filters\LoggedIn.cs" />
     <Compile Include="Global.asax.cs">

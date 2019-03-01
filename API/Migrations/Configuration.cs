@@ -15,7 +15,7 @@ namespace API.Migrations
         {
 
             Models.Contact[] contacts = new Models.Contact[]
-{
+            {
                 new Models.Contact()
                 {
                     Fields = new List<Models.Field>()
@@ -82,7 +82,7 @@ namespace API.Migrations
                         }
                     }
                 },
-};
+            };
 
             return contacts;
         }
